@@ -1,0 +1,46 @@
+{
+  "search": {
+    "city_code": "5000",
+    "top_area": "2",
+    "area": "1",
+    "rooms_min": 3,
+    "rooms_max": 4.5,
+    "price_min": 8000,
+    "price_max": 12000,
+    "exclude_ground_floor": true,
+    "prefer_parking": true,
+    "require_elevator": false,
+    "min_sqm": 70
+  },
+  "target_areas": {
+    "hebrew": [
+      "צפון הישן", "הצפון הישן",
+      "רידינג",
+      "הבימה",
+    ],
+    "english": [
+      "old north", "riding", "habima",
+      "rothschild", "lev hair", "city center",
+      "dizengoff", "gordon", "nordau",
+      "arlozorov", "frishman", "ben yehuda"
+    ]
+  },
+  "schedule": {
+    "interval_hours": 3,
+    "delay_between_requests_sec": 2.5,
+    "max_pages": 10,
+    "timeout_sec": 30
+  },
+  "notifications": {
+    "telegram_enabled": false,
+    "telegram_bot_token": "",
+    "telegram_chat_id": "",
+    "email_enabled": false,
+    "email_smtp": "",
+    "email_port": 587,
+    "email_user": "",
+    "email_pass": "",
+    "email_to": ""
+  },
+  "dashboard_port": 8080
+}
