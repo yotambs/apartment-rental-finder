@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Dashboard server. Run: python server.py → open http://localhost:8080"""
 import http.server, json
+import os.path
 from pathlib import Path
 
 DIR = Path(__file__).parent
-CFG = json.loads((DIR / "config.json").read_text(encoding="utf-8"))
+path_2_json = os.path.join(DIR, "config.json")
+CFG = json.loads(Path(path_2_json).read_text(encoding="utf-8"))
 PORT = CFG.get("dashboard_port", 8080)
 
 class H(http.server.SimpleHTTPRequestHandler):

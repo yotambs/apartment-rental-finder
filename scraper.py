@@ -63,13 +63,29 @@ YAD2_RENT_PAGE = f"{YAD2_BASE}/realestate/rent"
 ITEM_URL = f"{YAD2_BASE}/item/{{}}"
 
 # Known Tel Aviv neighborhood IDs (from Yad2's address-master)
+#"old_north_north": 1483,  # הצפון הישן - צפון
+#     "old_north_south":  1484,  # הצפון הישן - דרום
+#     "lev_hair":         1520,  # לב תל אביב / לב העיר
+#     "habima":           1489,  # הבימה / לב העיר
+#     "new_north":        1485,  # הצפון החדש - כיכר המדינה
+# }
+#
+
 NEIGHBORHOODS = {
-    "old_north_north":  1483,  # הצפון הישן - צפון
-    "old_north_south":  1484,  # הצפון הישן - דרום
-    "lev_hair":         1520,  # לב תל אביב / לב העיר
-    "habima":           1489,  # הבימה / לב העיר
-    "new_north":        1485,  # הצפון החדש - כיכר המדינה
+    "NW District": 20060009,  # הצפון הישן - צפון
+    "Neve Amit": 1211,  # הצפון הישן - דרום
+    "Weizmann Institute": 1236,  # לב תל אביב / לב העיר
+    "Achuzat HaNasi": 1235,  # הבימה / לב העיר
+    "Chavatzelet": 1216,  # הצפון החדש - כיכר המדינה
 }
+
+# │ 20060009 │ ב' / צפון מערב העי│ NW District│
+# │ 1211 │ נווה עמית│ Neve Amit│
+# 1213 │ נווה יהודה│ Neve Yehuda│
+# │ 1236│ מכון ויצמן│ Weizmann Institute│
+# │ 1235│ אחוזת הנשיא│ Achuzat HaNasi│
+#  │ 1216 │ חבצלת│ Chavatzelet│
+
 
 UAS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0.0.0 Safari/537.36",
@@ -154,7 +170,7 @@ def build_feed_url(build_id, cfg, page=1, neighborhoods=None):
         "minPrice": str(s["price_min"]),
         "maxPrice": str(s["price_max"]),
         "multiCity": s["city_code"],
-        "slug": "tel-aviv-area",
+        "slug": "center-and-sharon",
     }
     if s.get("min_sqm"):
         params["squareMeterMin"] = str(s["min_sqm"])
@@ -166,7 +182,7 @@ def build_feed_url(build_id, cfg, page=1, neighborhoods=None):
         params["page"] = str(page)
 
     qs = "&".join(f"{k}={v}" for k, v in params.items())
-    return f"{YAD2_BASE}/realestate/_next/data/{build_id}/rent/tel-aviv-area.json?{qs}"
+    return f"{YAD2_BASE}/realestate/_next/data/{build_id}/rent/center-and-sharon.json?{qs}"
 
 
 def extract_listings(data):
@@ -449,10 +465,11 @@ def scrape(cfg):
 
     # Step 2: Query each neighborhood group, plus a broad query
     neighborhood_groups = [
-        ("Old North", [1483, 1484]),           # צפון הישן צפון + דרום
-        ("Lev Hair / Habima", [1520, 1489]),   # לב העיר + הבימה
-        ("New North / Kikar", [1485]),          # הצפון החדש - כיכר המדינה
-        ("Broad (no filter)", None),            # All Tel Aviv — catch Rothschild, Riding etc.
+        ("NW District", [20060009]),   # ב' / צפון מערב העיר
+        ("Neve Amit", [1211]),         # נווה עמית
+        ("Weizmann / Achuzat", [1236, 1235]),  # מכון ויצמן + אחוזת הנשיא
+        ("Chavatzelet / Neve Yehuda", [1216, 1213]),  # חבצלת + נווה יהודה
+        ("Broad (no filter)", None),   # All Rehovot
     ]
 
     for area_name, nhood_ids in neighborhood_groups:

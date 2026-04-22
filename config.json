@@ -1,12 +1,12 @@
 {
   "search": {
-    "city_code": "5000",
-    "top_area": "2",
-    "area": "1",
+    "city_code": "8400",
+    "top_area": "41",
+    "area": "12",
     "rooms_min": 3,
-    "rooms_max": 4.5,
-    "price_min": 8000,
-    "price_max": 12000,
+    "rooms_max": 5,
+    "price_min": 6000,
+    "price_max": 9000,
     "exclude_ground_floor": true,
     "prefer_parking": true,
     "require_elevator": false,
@@ -14,16 +14,9 @@
   },
   "target_areas": {
     "hebrew": [
-      "צפון הישן", "הצפון הישן",
-      "רידינג",
-      "הבימה",
+      "רחובות"
     ],
-    "english": [
-      "old north", "riding", "habima",
-      "rothschild", "lev hair", "city center",
-      "dizengoff", "gordon", "nordau",
-      "arlozorov", "frishman", "ben yehuda"
-    ]
+    "english": []
   },
   "schedule": {
     "interval_hours": 3,
@@ -35,12 +28,12 @@
     "telegram_enabled": false,
     "telegram_bot_token": "",
     "telegram_chat_id": "",
-    "email_enabled": false,
+    "email_enabled": true,
     "email_smtp": "",
     "email_port": 587,
     "email_user": "",
     "email_pass": "",
-    "email_to": ""
+    "email_to": "yotam_ben@yahoo.com"
   },
   "dashboard_port": 8080
 }
