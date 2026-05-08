@@ -1,0 +1,23 @@
+# Search configuration for my_scarper.py
+# Run:  python my_scarper.py --config search_config.yaml
+
+town: rehovot              # Must be a key in the TOWNS table inside my_scarper.py.
+
+neighborhoods:             # Optional. Substring match against listing's neighborhood + address.
+  - דניה                  # Leave the list empty to include the entire town.
+
+email: yotam404@gmail.com  # Destination for the HTML report (optional).
+
+filters:                   # Optional — defaults shown.
+  min_price: 0
+  max_price: 10000
+  min_rooms: 0
+  max_rooms: 10
+
+# Optional SMTP credentials. If absent, the script just writes the HTML file
+# locally and skips emailing. App passwords work for Gmail.
+# smtp:
+#   host: smtp.gmail.com
+#   port: 587
+#   user: yotam404@gmail.com
+#   password: ""

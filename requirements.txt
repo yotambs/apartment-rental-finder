@@ -1,3 +1,5 @@
 curl_cffi>=0.7.0
 cloudscraper>=1.2.71
 requests>=2.31.0
+scrapling
+pyyaml>=6.0

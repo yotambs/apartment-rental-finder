@@ -2,6 +2,7 @@
 apartments.db
 apartments.json
 scraper.log
+rental_*.html
 
 # Python
 __pycache__/
