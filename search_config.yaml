@@ -4,7 +4,12 @@
 town: rehovot              # Must be a key in the TOWNS table inside my_scarper.py.
 
 neighborhoods:             # Optional. Substring match against listing's neighborhood + address.
-  - דניה                  # Leave the list empty to include the entire town.
+  - צפון מערב העיר  # Leave the list empty to include the entire town.
+  - נווה יהודה
+
+sources:                   # Optional. Which sites to fetch from. Omit/empty = all known.
+  - madlan
+  - yad2
 
 email: yotam404@gmail.com  # Destination for the HTML report (optional).
 

@@ -7,6 +7,7 @@ optionally emails it.
 Config (YAML):
   town: rehovot
   neighborhoods: [דניה]
+  sources: [madlan, yad2]                                  # optional, defaults to all
   email: you@example.com
   filters: {min_price, max_price, min_rooms, max_rooms}    # optional
   smtp:   {host, port, user, password}                     # optional
@@ -298,7 +299,7 @@ def filter_by_neighborhood(items, names):
     return out
 
 
-def render_html(town_display, items, today, neighborhoods):
+def render_html(town_display, items, today, neighborhoods, sources):
     cards = []
     for it in items:
         img_html = (
@@ -361,7 +362,7 @@ def render_html(town_display, items, today, neighborhoods):
 </head>
 <body>
 <h1>{town_display} rentals — {today}</h1>
-<p class="sub">{len(items)} listings · {htmllib.escape(nh)} · sources: madlan + yad2</p>
+<p class="sub">{len(items)} listings · {htmllib.escape(nh)} · sources: {htmllib.escape(' + '.join(sources))}</p>
 <div class="grid">
 {grid}
 </div>
@@ -395,6 +396,12 @@ def send_email(html, to, subject, smtp):
 # MAIN
 # ============================================================================
 
+SOURCES = {
+    "madlan": fetch_madlan,
+    "yad2": fetch_yad2,
+}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--config", default=str(DIR / "search_config.yaml"))
@@ -418,17 +425,28 @@ def main():
     if isinstance(neighborhoods, str):
         neighborhoods = [neighborhoods]
 
+    sources = cfg.get("sources") or list(SOURCES)
+    if isinstance(sources, str):
+        sources = [sources]
+    sources = [s.strip().lower() for s in sources if s and s.strip()]
+    unknown = [s for s in sources if s not in SOURCES]
+    if unknown:
+        print(f"Unknown sources: {unknown}. Known: {sorted(SOURCES)}", file=sys.stderr)
+        return 1
+    if not sources:
+        sources = list(SOURCES)
+
     items = []
-    items.extend(fetch_madlan(town_info, filters))
-    items.extend(fetch_yad2(town_info, filters))
-    print(f"[total] {len(items)} raw listings", flush=True)
+    for src in sources:
+        items.extend(SOURCES[src](town_info, filters))
+    print(f"[total] {len(items)} raw listings from {sources}", flush=True)
 
     filtered = filter_by_neighborhood(items, neighborhoods)
     filtered.sort(key=lambda x: (x["price"] if isinstance(x["price"], (int, float)) else 10**9))
     print(f"[filter] {len(filtered)} after neighborhood match", flush=True)
 
     today = date.today().isoformat()
-    html = render_html(town_info["display"], filtered, today, neighborhoods)
+    html = render_html(town_info["display"], filtered, today, neighborhoods, sources)
     out = DIR / f"rental_{town_key}_{today}.html"
     out.write_text(html, encoding="utf-8")
     print(f"[write] {out}", flush=True)
