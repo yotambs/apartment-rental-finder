@@ -13,7 +13,7 @@ Config (YAML):
   smtp:   {host, port, user, password}                     # optional
 
 Output:
-  rental_<town>_<YYYY-MM-DD>.html   in the script directory
+  reports/rental_<town>_<YYYY-MM-DD>.html
 
 Usage:
   python my_scarper.py                              # uses ./search_config.yaml
@@ -447,7 +447,9 @@ def main():
 
     today = date.today().isoformat()
     html = render_html(town_info["display"], filtered, today, neighborhoods, sources)
-    out = DIR / f"rental_{town_key}_{today}.html"
+    reports_dir = DIR / "reports"
+    reports_dir.mkdir(exist_ok=True)
+    out = reports_dir / f"rental_{town_key}_{today}.html"
     out.write_text(html, encoding="utf-8")
     print(f"[write] {out}", flush=True)
 

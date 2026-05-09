@@ -3,6 +3,7 @@ apartments.db
 apartments.json
 scraper.log
 rental_*.html
+reports/
 
 # Python
 __pycache__/

@@ -49,7 +49,7 @@ Data flow:
 
 ### Scraper #2 — `my_scarper.py` (one-shot, multi-source, HTML report + optional email)
 
-Despite the typo in the filename, this is a fully-featured scraper, not an experiment. It fetches from **Madlan** (via `scrapling`'s `StealthyFetcher` — headless browser to extract the SSR `__SSR_HYDRATED_CONTEXT__` blob) and **Yad2** (same Next.js build-ID trick as scraper.py), normalizes both into a common shape, filters by neighborhood substring, writes `rental_<town>_<YYYY-MM-DD>.html`, and optionally emails the report via SMTP.
+Despite the typo in the filename, this is a fully-featured scraper, not an experiment. It fetches from **Madlan** (via `scrapling`'s `StealthyFetcher` — headless browser to extract the SSR `__SSR_HYDRATED_CONTEXT__` blob) and **Yad2** (same Next.js build-ID trick as scraper.py), normalizes both into a common shape, filters by neighborhood substring, writes `reports/rental_<town>_<YYYY-MM-DD>.html`, and optionally emails the report via SMTP.
 
 It is **not** invoked by `run.py` and does **not** read `config.json` or write to `apartments.db`. Its config is YAML (`search_config.yaml` by default; `search_config_2.yaml` is a second saved query). Schema: `town`, `neighborhoods` (substring filter), `sources` (`madlan`, `yad2`, or both), `filters` (price/rooms), `email`, `smtp`.
 
@@ -61,4 +61,4 @@ Both scrapers prefer `curl_cffi` (with `impersonate="chrome124"` for Cloudflare 
 
 ### Generated files (not in git)
 
-`apartments.db`, `apartments.json`, `scraper.log` (scraper #1); `rental_*.html` (scraper #2).
+`apartments.db`, `apartments.json`, `scraper.log` (scraper #1); `reports/` (scraper #2).
